@@ -5,7 +5,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-find_package(Boost 1.54.0 COMPONENTS serialization REQUIRED) 
+find_package(Boost 1.54.0 COMPONENTS iostreams REQUIRED) 
 
 if (Boost_FOUND)
 	add_executable(ATLeagueUtility src/main.cpp)
