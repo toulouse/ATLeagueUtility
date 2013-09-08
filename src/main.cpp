@@ -1,12 +1,8 @@
-#include <boost/shared_ptr.hpp>
+#include <fstream>
+#include <iostream>
 #include <vector>
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/iostreams/stream.hpp>
-
 
 using namespace std;
-using boost::iostreams::mapped_file_source;
-using boost::iostreams::stream;
 
 class PathEntry {
 public:
@@ -50,8 +46,8 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
 
-    stream<mapped_file_source> fs;
-    fs.open(mapped_file_source((argv[1])));
+    ifstream fs;
+    fs.open(argv[1], ios_base::in | ios_base::binary);
 
     if (!fs.is_open()) {
         cerr << "File couldn't be opened!" << endl;
