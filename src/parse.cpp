@@ -124,6 +124,6 @@ unique_ptr<Archive> readArchive(ifstream &fs) {
         fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
-    archive->files = fileMap;
+    archive->setFiles(fileMap);
     return archive;
 }
