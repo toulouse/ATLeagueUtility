@@ -63,6 +63,11 @@ uint32_t calculatePathHash(string path) {
 }
 
 Archive readArchive(ifstream &fs) {
+    if (!fs.is_open()) {
+        throw "File couldn't be opened!";
+    }
+    fs.seekg(ios_base::beg);
+
     // --------------------
     // Read in archive file
     // --------------------
@@ -120,6 +125,5 @@ Archive readArchive(ifstream &fs) {
     }
 
     archive.files = fileMap;
-
     return archive;
 }
