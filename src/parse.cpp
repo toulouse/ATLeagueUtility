@@ -119,6 +119,7 @@ unique_ptr<Archive> readArchive(ifstream &fs) {
         fs.seekg(adjustedPathOffset);
         fs.read(bytes, pathLength);
         string path = string(bytes, pathLength - 1);
+        delete bytes;
         fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
