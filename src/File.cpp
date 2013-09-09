@@ -33,6 +33,20 @@ namespace AT {
             this->path = path;
         }
 
+        /* static */ uint32_t File::calculatePathHash(const string &path) {
+            uint32_t hash = 0;
+            uint32_t temp = 0;
+            for (auto it = path.begin(); it < path.end(); it++) {
+                hash = (hash << 4) + tolower(*it);
+                temp = hash & 0xf0000000;
+                if (temp) {
+                    hash = hash ^ (temp >> 24);
+                    hash = hash ^ temp;
+                }
+            }
+            return hash;
+        }
+
         ostream& operator<<(ostream &stream, const File &file) {
             return stream << "File(path=" << file.path + ", dataOffset=" <<  file.dataOffset << ", dataSize=" <<  file.dataSize << ")";
         }

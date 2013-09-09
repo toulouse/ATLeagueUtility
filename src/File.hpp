@@ -27,6 +27,8 @@ namespace AT {
             void setDataSize(uint32_t dataSize);
             const string& getPath() const;
             void setPath(const string& path);
+
+            static uint32_t calculatePathHash(const string &path);
         };
     }
 }

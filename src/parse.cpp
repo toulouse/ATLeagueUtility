@@ -1,3 +1,4 @@
+#include <cassert>
 #include <vector>
 #include <string>
 
@@ -10,6 +11,7 @@ using std::ifstream;
 using std::ios_base;
 using std::ostream;
 using std::unique_ptr;
+using std::string;
 using std::vector;
 
 using AT::RAF::Archive;
@@ -45,20 +47,6 @@ struct ArchiveHeader {
     uint32_t fileListOffset;
     uint32_t pathListOffset;
 };
-
-uint32_t calculatePathHash(const string &path) {
-    uint32_t hash = 0;
-    uint32_t temp = 0;
-    for (auto it = path.begin(); it < path.end(); it++) {
-        hash = (hash << 4) + tolower(*it);
-        temp = hash & 0xf0000000;
-        if (temp) {
-            hash = hash ^ (temp >> 24);
-            hash = hash ^ temp;
-        }
-    }
-    return hash;
-}
 
 unique_ptr<Archive> AT::RAF::readArchive(ifstream &fs) {
     if (!fs.is_open()) {
@@ -120,6 +108,7 @@ unique_ptr<Archive> AT::RAF::readArchive(ifstream &fs) {
         fs.read(bytes, pathLength);
         string path = string(bytes, pathLength - 1);
         delete bytes;
+        assert(AT::RAF::File::calculatePathHash(path) == it->pathHash);
         fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
