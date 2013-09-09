@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 
-#include "parse.hpp"
 #include "Archive.hpp"
 #include "File.hpp"
 
@@ -11,6 +10,8 @@ using std::cerr;
 using std::cout;
 using std::endl;
 using std::ios_base;
+
+using AT::RAF::Archive;
 
 int main(int argc, const char* argv[]) {
     if (argc != 2) {
@@ -25,7 +26,7 @@ int main(int argc, const char* argv[]) {
         return -2;
     }
 
-    auto archive = AT::RAF::readArchive(fs);
+    auto archive = Archive::readArchive(fs);
     auto files = archive->getFiles();
     for (auto it = files.begin(); it != files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;
