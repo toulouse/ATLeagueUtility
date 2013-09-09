@@ -13,7 +13,7 @@ using std::ostream;
 using std::unique_ptr;
 using std::vector;
 
-ostream& operator<<(ostream &stream, const ArchivedFile &file) {
+ostream& operator<<(ostream &stream, const File &file) {
     return stream << "File(path=" << file.path + ", dataOffset=" <<  file.dataOffset << ", dataSize=" <<  file.dataSize << ")";
 }
 
@@ -112,7 +112,7 @@ Archive openArchive(string filename) {
     // Build Archive model object
     // --------------------------
     Archive archive;
-    map<string, ArchivedFile> fileMap;
+    map<string, File> fileMap;
 
     for (auto it = files.begin(); it < files.end(); it++) {
         PathEntry pathEntry = paths[it->pathListIndex];
@@ -124,7 +124,7 @@ Archive openArchive(string filename) {
         fs.seekg(adjustedPathOffset);
         fs.read(bytes, pathLength);
         string path = string(bytes, pathLength - 1);
-        fileMap.insert(make_pair(path, ArchivedFile(path, it->dataOffset, it->dataSize)));
+        fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
     for (auto it = fileMap.begin(); it != fileMap.end(); it++) {
