@@ -76,19 +76,19 @@ Archive openArchive(string filename) {
 
     // Archive Header
     ArchiveHeader *archiveHeader = new ArchiveHeader;
-    fs.read((char *)archiveHeader, sizeof(ArchiveHeader));
+    fs.read(reinterpret_cast<char *>(archiveHeader), sizeof(ArchiveHeader));
 
     // File List
     FileList *fileList = new FileList;
     fs.seekg(archiveHeader->fileListOffset);
 
     uint32_t fileCount;
-    fs.read((char *)&fileCount, sizeof(uint32_t));
+    fs.read(reinterpret_cast<char *>(&fileCount), sizeof(uint32_t));
     fileList->count = fileCount;
 
     // File Entries
     vector<FileEntry> files(fileCount);
-    fs.read((char *)&files[0], fileCount * sizeof(FileEntry));
+    fs.read(reinterpret_cast<char *>(&files[0]), fileCount * sizeof(FileEntry));
     fileList->files = files;
 
     // Path List
@@ -96,16 +96,16 @@ Archive openArchive(string filename) {
     fs.seekg(archiveHeader->pathListOffset);
 
     uint32_t pathBytes;
-    fs.read((char *)&pathBytes, sizeof(uint32_t));
+    fs.read(reinterpret_cast<char *>(&pathBytes), sizeof(uint32_t));
     pathList->bytes = pathBytes;
 
     uint32_t pathCount;
-    fs.read((char *)&pathCount, sizeof(uint32_t));
+    fs.read(reinterpret_cast<char *>(&pathCount), sizeof(uint32_t));
     pathList->count = pathCount;
 
     // Path Entries
     vector<PathEntry> paths(pathCount);
-    fs.read((char *)&paths[0], pathCount * sizeof(PathEntry));
+    fs.read(reinterpret_cast<char *>(&paths[0]), pathCount * sizeof(PathEntry));
     pathList->paths = paths;
 
     // --------------------------
