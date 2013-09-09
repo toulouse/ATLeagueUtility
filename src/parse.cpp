@@ -62,18 +62,10 @@ uint32_t calculatePathHash(string path) {
     return hash;
 }
 
-Archive openArchive(string filename) {
-    ifstream fs;
-    fs.open(filename, ios_base::in | ios_base::binary);
-
-    if (!fs.is_open()) {
-        throw "File couldn't be opened!";
-    }
-
+Archive readArchive(ifstream &fs) {
     // --------------------
     // Read in archive file
     // --------------------
-
     // Archive Header
     ArchiveHeader archiveHeader;
     fs.read(reinterpret_cast<char *>(&archiveHeader), sizeof(ArchiveHeader));

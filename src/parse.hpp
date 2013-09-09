@@ -32,6 +32,6 @@ public:
     map<string, File> files;
 };
 
-Archive openArchive(string filename);
+Archive readArchive(ifstream &fs);
 
 #endif
