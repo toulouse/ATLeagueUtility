@@ -12,6 +12,9 @@ using std::ostream;
 using std::unique_ptr;
 using std::vector;
 
+using AT::RAF::Archive;
+using AT::RAF::File;
+
 struct PathEntry {
     uint32_t offset;
     uint32_t length;
@@ -57,7 +60,7 @@ uint32_t calculatePathHash(const string &path) {
     return hash;
 }
 
-unique_ptr<Archive> readArchive(ifstream &fs) {
+unique_ptr<Archive> AT::RAF::readArchive(ifstream &fs) {
     if (!fs.is_open()) {
         throw "File couldn't be opened!";
     }

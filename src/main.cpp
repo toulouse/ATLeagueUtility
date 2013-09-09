@@ -25,7 +25,7 @@ int main(int argc, const char* argv[]) {
         return -2;
     }
 
-    auto archive = readArchive(fs);
+    auto archive = AT::RAF::readArchive(fs);
     auto files = archive->getFiles();
     for (auto it = files.begin(); it != files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;
