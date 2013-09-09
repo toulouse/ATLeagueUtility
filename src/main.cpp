@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Archive.hpp"
+#include "ArchiveMetadata.hpp"
 #include "File.hpp"
 
 using std::ifstream;
@@ -11,7 +11,7 @@ using std::cout;
 using std::endl;
 using std::ios_base;
 
-using AT::RAF::Archive;
+using AT::RAF::ArchiveMetadata;
 
 int main(int argc, const char* argv[]) {
     if (argc != 2) {
@@ -26,7 +26,7 @@ int main(int argc, const char* argv[]) {
         return -2;
     }
 
-    auto archive = Archive::readArchive(fs);
+    auto archive = ArchiveMetadata::readArchiveMetadata(fs);
     auto files = archive->getFiles();
     for (auto it = files.begin(); it != files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;

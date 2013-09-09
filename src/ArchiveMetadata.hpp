@@ -1,5 +1,5 @@
-#ifndef ARCHIVE_H
-#define ARCHIVE_H
+#ifndef ARCHIVEMETADATA_H
+#define ARCHIVEMETADATA_H
 
 #include <fstream>
 #include <map>
@@ -13,20 +13,20 @@ using std::unique_ptr;
 namespace AT {
     namespace RAF {
         class File;
-        class Archive {
+        class ArchiveMetadata {
         private:
             map<string, File> files;
 
         public:
-            Archive();
-            Archive(const map<string, File>& files);
+            ArchiveMetadata();
+            ArchiveMetadata(const map<string, File>& files);
             const map<string, File>& getFiles() const;
             void setFiles(const map<string, File>& files);
 
             /**
-             * Factory method for Archive.
+             * Factory method for ArchiveMetadata.
              */
-            static unique_ptr<Archive> readArchive(ifstream &fs);
+            static unique_ptr<ArchiveMetadata> readArchiveMetadata(ifstream &fs);
         };
     }
 }

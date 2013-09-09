@@ -1,4 +1,4 @@
-#include "Archive.hpp"
+#include "ArchiveMetadata.hpp"
 
 #include <cassert>
 #include <vector>
@@ -42,20 +42,20 @@ namespace AT {
         };
 
 
-        Archive::Archive() {}
-        Archive::Archive(const map<string, File>& files) : Archive::Archive() {
+        ArchiveMetadata::ArchiveMetadata() {}
+        ArchiveMetadata::ArchiveMetadata(const map<string, File>& files) : ArchiveMetadata::ArchiveMetadata() {
             this->files = files;
         }
 
-        const map<string, File>& AT::RAF::Archive::getFiles() const {
+        const map<string, File>& ArchiveMetadata::getFiles() const {
             return files;
         }
 
-        void AT::RAF::Archive::setFiles(const map<string, File>& files) {
+        void ArchiveMetadata::setFiles(const map<string, File>& files) {
             this->files = files;
         }
 
-        unique_ptr<Archive> Archive::readArchive(ifstream &fs) {
+        unique_ptr<ArchiveMetadata> ArchiveMetadata::readArchiveMetadata(ifstream &fs) {
             if (!fs.is_open()) {
                 throw "File couldn't be opened!";
             }
@@ -101,7 +101,7 @@ namespace AT {
             // --------------------------
             // Build Archive model object
             // --------------------------
-            unique_ptr<Archive> archive(new Archive());
+            unique_ptr<ArchiveMetadata> metadata(new ArchiveMetadata());
             map<string, File> fileMap;
 
             for (auto it = files.begin(); it < files.end(); it++) {
@@ -119,8 +119,8 @@ namespace AT {
                 fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
             }
             
-            archive->setFiles(fileMap);
-            return archive;
+            metadata->setFiles(fileMap);
+            return metadata;
         }
 
     }
