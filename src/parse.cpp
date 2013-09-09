@@ -62,7 +62,7 @@ uint32_t calculatePathHash(string path) {
     return hash;
 }
 
-Archive readArchive(ifstream &fs) {
+unique_ptr<Archive> readArchive(ifstream &fs) {
     if (!fs.is_open()) {
         throw "File couldn't be opened!";
     }
@@ -108,7 +108,7 @@ Archive readArchive(ifstream &fs) {
     // --------------------------
     // Build Archive model object
     // --------------------------
-    Archive archive;
+    unique_ptr<Archive> archive(new Archive());
     map<string, File> fileMap;
 
     for (auto it = files.begin(); it < files.end(); it++) {
@@ -124,6 +124,6 @@ Archive readArchive(ifstream &fs) {
         fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
-    archive.files = fileMap;
+    archive->files = fileMap;
     return archive;
 }

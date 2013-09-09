@@ -23,7 +23,7 @@ int main(int argc, const char* argv[]) {
     }
 
     auto archive = readArchive(fs);
-    for (auto it = archive.files.begin(); it != archive.files.end(); it++) {
+    for (auto it = archive->files.begin(); it != archive->files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;
     }
 

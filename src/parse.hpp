@@ -32,6 +32,6 @@ public:
     map<string, File> files;
 };
 
-Archive readArchive(ifstream &fs);
+unique_ptr<Archive> readArchive(ifstream &fs);
 
 #endif
