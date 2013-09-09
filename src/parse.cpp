@@ -7,6 +7,10 @@
 
 using namespace std;
 
+ostream& operator<<(ostream &stream, const ArchivedFile &file) {
+    return stream << "File(path=" << file.path + ", dataOffset=" <<  file.dataOffset << ", dataSize=" <<  file.dataSize << ")";
+}
+
 struct PathEntry {
     uint32_t offset;
     uint32_t length;
@@ -38,15 +42,15 @@ struct ArchiveHeader {
     uint32_t pathListOffset;
 };
 
-uint32_t calculateHashFromString(string s) {
+uint32_t calculatePathHash(string path) {
     uint32_t hash = 0;
     uint32_t temp = 0;
-    for (string::iterator it = s.begin(); it < s.end(); it++) {
+    for (auto it = path.begin(); it < path.end(); it++) {
         hash = (hash << 4) + tolower(*it);
         temp = hash & 0xf0000000;
-        if (!temp) {
-            hash ^= (temp >> 24);
-            hash ^= temp;
+        if (temp) {
+            hash = hash ^ (temp >> 24);
+            hash = hash ^ temp;
         }
     }
     return hash;
@@ -60,7 +64,9 @@ Archive openArchive(string filename) {
         throw "File couldn't be opened!";
     }
 
-    Archive archive;
+    // --------------------
+    // Read in archive file
+    // --------------------
 
     // Archive Header
     ArchiveHeader *archiveHeader = new ArchiveHeader;
@@ -96,43 +102,27 @@ Archive openArchive(string filename) {
     fs.read((char *)&paths[0], pathCount * sizeof(PathEntry));
     pathList->paths = paths;
 
-    // Path Strings
-    map<uint32_t, PathEntry *> pathHashToPathMap;
-    map<PathEntry *, string> pathToPathStringMap;
+    // --------------------------
+    // Build Archive model object
+    // --------------------------
+    Archive archive;
+    map<string, ArchivedFile> fileMap;
 
-    for (vector<PathEntry>::iterator it = paths.begin(); it < paths.end(); it++) {
-        uint32_t adjustedPathOffset = archiveHeader->pathListOffset + it->offset;
-        uint32_t pathLength = it->length;
+    for (auto it = files.begin(); it < files.end(); it++) {
+        PathEntry pathEntry = paths[it->pathListIndex];
+
+        uint32_t adjustedPathOffset = archiveHeader->pathListOffset + pathEntry.offset;
+        uint32_t pathLength = pathEntry.length;
 
         char *bytes = new char[pathLength];
         fs.seekg(adjustedPathOffset);
         fs.read(bytes, pathLength);
-        string path = string(bytes, pathLength);
-
-        uint32_t pathHash = calculateHashFromString(path);
-
-        cout << "ph " << pathHash << " p " << path << endl;
-        PathEntry *pathEntry = it.base();
-        pathHashToPathMap.insert(make_pair(pathHash, pathEntry));
-        pathToPathStringMap.insert(make_pair(pathEntry, path));
+        string path = string(bytes, pathLength - 1);
+        fileMap.insert(make_pair(path, ArchivedFile(path, it->dataOffset, it->dataSize)));
     }
 
-    for (vector<FileEntry>::iterator it = files.begin(); it < files.end(); it++) {
-        auto pathHashIt = pathHashToPathMap.find(it->pathHash);
-        if (pathHashIt == pathHashToPathMap.end()) {
-            cerr << "Could not find path entry with index=" << it->pathListIndex << " hash=" << it->pathHash << endl;
-            continue;
-        }
-
-        PathEntry *pathEntry = pathHashIt->second;
-        auto pathIt = pathToPathStringMap.find(pathEntry);
-        if (pathIt == pathToPathStringMap.end()) {
-            cerr << "Could not find file with offset=" << pathEntry->offset << ", length=" << pathEntry->length << endl;
-            continue;
-        }
-
-        string path = pathIt->second;
-        cerr << path << ": offset=" << pathEntry->offset << ", length=" << pathEntry->length << endl;
+    for (auto it = fileMap.begin(); it != fileMap.end(); it++) {
+        cout << "File: " << it->first << " Debug info: " << it->second << endl;
     }
 
     return archive;
