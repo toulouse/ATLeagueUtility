@@ -4,7 +4,11 @@
 #include <map>
 #include <vector>
 
-using namespace std;
+using std::map;
+using std::ifstream;
+using std::ostream;
+using std::string;
+using std::unique_ptr;
 
 class ArchivedFile {
 private:

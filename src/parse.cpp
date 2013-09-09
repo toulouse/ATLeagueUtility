@@ -5,7 +5,13 @@
 
 #include "parse.hpp"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::ios_base;
+using std::ostream;
+using std::unique_ptr;
+using std::vector;
 
 ostream& operator<<(ostream &stream, const ArchivedFile &file) {
     return stream << "File(path=" << file.path + ", dataOffset=" <<  file.dataOffset << ", dataSize=" <<  file.dataSize << ")";

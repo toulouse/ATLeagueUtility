@@ -3,7 +3,11 @@
 #include <vector>
 #include "parse.hpp"
 
-using namespace std;
+using std::ifstream;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ios_base;
 
 int main(int argc, const char* argv[]) {
     if (argc != 2) {
