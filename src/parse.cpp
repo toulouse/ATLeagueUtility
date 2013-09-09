@@ -48,7 +48,7 @@ struct ArchiveHeader {
     uint32_t pathListOffset;
 };
 
-uint32_t calculatePathHash(string path) {
+uint32_t calculatePathHash(const string &path) {
     uint32_t hash = 0;
     uint32_t temp = 0;
     for (auto it = path.begin(); it < path.end(); it++) {

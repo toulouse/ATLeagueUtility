@@ -19,7 +19,7 @@ private:
 
 
 public:
-    File(string path, uint32_t dataOffset, uint32_t dataSize) {
+    File(const string &path, uint32_t dataOffset, uint32_t dataSize) {
         this->path = path;
         this->dataOffset = dataOffset;
         this->dataSize = dataSize;
