@@ -6,5 +6,6 @@ CMakeFiles
 CMakeScripts
 Makefile
 build/
+data/
 cmake_install.cmake
 install_manifest.txt
