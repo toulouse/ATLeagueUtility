@@ -75,38 +75,38 @@ Archive openArchive(string filename) {
     // --------------------
 
     // Archive Header
-    ArchiveHeader *archiveHeader = new ArchiveHeader;
-    fs.read(reinterpret_cast<char *>(archiveHeader), sizeof(ArchiveHeader));
+    ArchiveHeader archiveHeader;
+    fs.read(reinterpret_cast<char *>(&archiveHeader), sizeof(ArchiveHeader));
 
     // File List
-    FileList *fileList = new FileList;
-    fs.seekg(archiveHeader->fileListOffset);
+    FileList fileList;
+    fs.seekg(archiveHeader.fileListOffset);
 
     uint32_t fileCount;
     fs.read(reinterpret_cast<char *>(&fileCount), sizeof(uint32_t));
-    fileList->count = fileCount;
+    fileList.count = fileCount;
 
     // File Entries
     vector<FileEntry> files(fileCount);
     fs.read(reinterpret_cast<char *>(&files[0]), fileCount * sizeof(FileEntry));
-    fileList->files = files;
+    fileList.files = files;
 
     // Path List
-    PathList *pathList = new PathList;
-    fs.seekg(archiveHeader->pathListOffset);
+    PathList pathList;
+    fs.seekg(archiveHeader.pathListOffset);
 
     uint32_t pathBytes;
     fs.read(reinterpret_cast<char *>(&pathBytes), sizeof(uint32_t));
-    pathList->bytes = pathBytes;
+    pathList.bytes = pathBytes;
 
     uint32_t pathCount;
     fs.read(reinterpret_cast<char *>(&pathCount), sizeof(uint32_t));
-    pathList->count = pathCount;
+    pathList.count = pathCount;
 
     // Path Entries
     vector<PathEntry> paths(pathCount);
     fs.read(reinterpret_cast<char *>(&paths[0]), pathCount * sizeof(PathEntry));
-    pathList->paths = paths;
+    pathList.paths = paths;
 
     // --------------------------
     // Build Archive model object
@@ -117,7 +117,7 @@ Archive openArchive(string filename) {
     for (auto it = files.begin(); it < files.end(); it++) {
         PathEntry pathEntry = paths[it->pathListIndex];
 
-        uint32_t adjustedPathOffset = archiveHeader->pathListOffset + pathEntry.offset;
+        uint32_t adjustedPathOffset = archiveHeader.pathListOffset + pathEntry.offset;
         uint32_t pathLength = pathEntry.length;
 
         char *bytes = new char[pathLength];
