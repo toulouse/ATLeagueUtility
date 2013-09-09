@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+#include "Archive.hpp"
+#include "File.hpp"
 #include "parse.hpp"
 
 using std::cout;
@@ -12,10 +14,6 @@ using std::ios_base;
 using std::ostream;
 using std::unique_ptr;
 using std::vector;
-
-ostream& operator<<(ostream &stream, const File &file) {
-    return stream << "File(path=" << file.path + ", dataOffset=" <<  file.dataOffset << ", dataSize=" <<  file.dataSize << ")";
-}
 
 struct PathEntry {
     uint32_t offset;
@@ -127,3 +125,4 @@ unique_ptr<Archive> readArchive(ifstream &fs) {
     archive->setFiles(fileMap);
     return archive;
 }
+

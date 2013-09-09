@@ -1,6 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+
+#include "Archive.hpp"
+#include "File.hpp"
 #include "parse.hpp"
 
 using std::ifstream;

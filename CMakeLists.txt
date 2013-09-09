@@ -12,6 +12,6 @@ if(CMAKE_GENERATOR STREQUAL Xcode)
 	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
 endif(CMAKE_GENERATOR STREQUAL Xcode)
 
-add_executable(leagueutil src/main.cpp src/parse.hpp src/parse.cpp)
+add_executable(leagueutil src/main.cpp src/parse.hpp src/parse.cpp src/File.hpp src/File.cpp src/Archive.hpp src/Archive.cpp)
 include_directories(src) 
 target_link_libraries (leagueutil)
