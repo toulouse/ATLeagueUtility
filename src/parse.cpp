@@ -127,9 +127,7 @@ Archive openArchive(string filename) {
         fileMap.insert(make_pair(path, File(path, it->dataOffset, it->dataSize)));
     }
 
-    for (auto it = fileMap.begin(); it != fileMap.end(); it++) {
-        cout << "File: " << it->first << " Debug info: " << it->second << endl;
-    }
+    archive.files = fileMap;
 
     return archive;
 }

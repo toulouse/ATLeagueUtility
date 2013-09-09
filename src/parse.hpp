@@ -28,6 +28,7 @@ public:
 
 
 class Archive {
+public:
     map<string, File> files;
 };
 
