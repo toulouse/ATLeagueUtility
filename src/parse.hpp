@@ -2,7 +2,7 @@
 #define PARSE_H
 
 #include <fstream>
-#include <map>
+#include <memory>
 
 using std::ifstream;
 using std::unique_ptr;

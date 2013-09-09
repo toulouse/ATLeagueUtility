@@ -2,7 +2,6 @@
 #define ARCHIVE_H
 
 #include <map>
-#include <vector>
 
 using std::map;
 using std::string;

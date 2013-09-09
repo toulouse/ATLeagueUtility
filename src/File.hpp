@@ -1,8 +1,8 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include <ostream>
 #include <cstdint>
+#include <ostream>
 #include <string>
 
 using std::ostream;

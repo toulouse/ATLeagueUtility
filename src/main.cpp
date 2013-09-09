@@ -2,9 +2,9 @@
 #include <iostream>
 #include <vector>
 
+#include "parse.hpp"
 #include "Archive.hpp"
 #include "File.hpp"
-#include "parse.hpp"
 
 using std::ifstream;
 using std::cerr;

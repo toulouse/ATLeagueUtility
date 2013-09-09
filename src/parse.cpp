@@ -1,14 +1,11 @@
-#include <fstream>
-#include <iostream>
-#include <memory>
+#include <vector>
 #include <string>
+
+#include "parse.hpp"
 
 #include "Archive.hpp"
 #include "File.hpp"
-#include "parse.hpp"
 
-using std::cout;
-using std::endl;
 using std::ifstream;
 using std::ios_base;
 using std::ostream;
