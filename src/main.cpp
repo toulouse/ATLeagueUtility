@@ -33,14 +33,13 @@ int main(int argc, const char* argv[]) {
     }
 
     auto archiveMetadata = ArchiveMetadata::readArchiveMetadata(fs);
-    auto archive = new Archive(archiveFilename); // without the 'new' this is an error
+    Archive archive(archiveFilename);
     auto files = archiveMetadata->getFiles();
     for (auto it = files.begin(); it != files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;
-        auto file = archive->readFile(it->second);
+        auto file = archive.readFile(it->second);
         // Do something with contents later
     }
-    delete archive;
 
     return 0;
 }
