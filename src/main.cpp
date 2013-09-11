@@ -33,7 +33,7 @@ int main(int argc, const char* argv[]) {
     }
 
     auto archiveMetadata = ArchiveMetadata::readArchiveMetadata(fs);
-    Archive archive(archiveFilename);
+    auto archive = Archive(archiveFilename);
     auto files = archiveMetadata->getFiles();
     for (auto it = files.begin(); it != files.end(); it++) {
         cout << "File: " << it->first << " Debug info: " << it->second << endl;

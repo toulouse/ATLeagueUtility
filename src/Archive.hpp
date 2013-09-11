@@ -16,6 +16,7 @@ namespace AT {
         private:
             ifstream file;
         public:
+            Archive(Archive&&) = default; // Explicit move constructor
             Archive(const string &archiveFilename);
             ~Archive();
             vector<char> readFile(const File &f);
